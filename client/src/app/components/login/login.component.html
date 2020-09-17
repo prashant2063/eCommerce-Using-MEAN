@@ -1,0 +1,108 @@
+<div class="container-fluid pb-4">
+    <div class="row">
+        <div class="offset-md-4 col-md-4">
+            <div class="card">
+                <div class="card-header p-0">
+                    <button class="btn btn-primary w-50" id="loginTab" (click)="showLogin()">Login</button>
+                    <button class="btn w-50" id="registerTab" (click)="showRegister()">Register</button>
+                </div>
+                <div class="card-body">
+                    <div id="login" class="d-block">
+                        <form [formGroup]="loginForm" (ngSubmit)="loginBtnClickEventHandler();">
+                            <div class="form-group">
+                                <label for="loginUsername">Email</label>
+                                <input id="loginUsername" class="form-control" type="text" name="username"
+                                    formControlName="username" autocomplete="off">
+                                <div *ngIf="loginForm.get('username').errors?.required && loginForm.get('username').touched"
+                                    class="text-danger small">
+                                    *Username is Required
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <input id="loginPassword" class="form-control" type="password" name="password"
+                                    formControlName="password" autocomplete="off">
+                                <div *ngIf="loginForm.get('password').errors?.required && loginForm.get('password').touched"
+                                    class="text-danger small">
+                                    *Password is Required
+                                </div>
+                                <div *ngIf="loginForm.get('password').errors?.minlength && loginForm.get('password').touched"
+                                    class="text-danger small">
+                                    *Password must contain atleast 8 characters
+                                </div>
+                                <div *ngIf="loginForm.get('password').errors?.pattern && loginForm.get('password').touched"
+                                    class="text-danger small">
+                                    *Password should contain atleast 1 lowercase, 1 uppercase, 1 digit and 1
+                                    special character.
+                                </div>
+                            </div>
+                            <div class="form-group text-right">
+                                <input [disabled]="loginForm.invalid" class="btn btn-primary" type="submit"
+                                    name="login" value="Sign in">
+                            </div>
+                        </form>
+                    </div>
+                    <div id="register" class="d-none">
+                        <form [formGroup]="registerForm" (ngSubmit)="registerBtnClickEventHandler();">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input id="name" class="form-control" type="text" name="name"
+                                    formControlName="name" autocomplete="off">
+                                <div *ngIf="registerForm.get('name').errors?.required && registerForm.get('name').touched"
+                                    class="text-danger small">
+                                    *Name is Required
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input id="email" class="form-control" type="email" name="email"
+                                    formControlName="email" autocomplete="off">
+                                <div *ngIf="registerForm.get('email').errors?.required && registerForm.get('email').touched"
+                                    class="text-danger small">
+                                    *Email is Required
+                                </div>
+                                <div *ngIf="registerForm.get('email').errors?.email && registerForm.get('email').touched"
+                                    class="text-danger small">
+                                    *Please Enter a valid email
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input id="password" class="form-control" type="password" name="password"
+                                    formControlName="password" autocomplete="off">
+                                <div *ngIf="registerForm.get('password').errors?.required && registerForm.get('password').touched"
+                                    class="text-danger small">
+                                    *Passwords is Required
+                                </div>
+                                <div *ngIf="registerForm.get('password').errors?.minlength && registerForm.get('password').touched"
+                                    class="text-danger small">
+                                    *Password must contain atleast 8 characters
+                                </div>
+                                <div *ngIf="registerForm.get('password').errors?.pattern && registerForm.get('password').touched"
+                                    class="text-danger small">
+                                    *Password should contain atleast 1 lowercase, 1 uppercase, 1 digit and 1
+                                    special character.
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="re-password">Confirm Password</label>
+                                <input id="re-password" class="form-control" type="password"
+                                    name="re-password" formControlName="rePassword" autocomplete="off">
+                                <div *ngIf="registerForm.get('rePassword').errors?.required && registerForm.get('rePassword').touched" class="text-danger small">
+                                    *Passwords is required
+                                </div>
+                                <div *ngIf="registerForm.errors?.matchPassword && registerForm.get('rePassword').touched" class="text-danger small">
+                                    *Passwords do not match
+                                </div>
+                            </div>
+                            <div class="form-group text-right">
+                                <input class="btn btn-primary" type="submit" name="register"
+                                    value="Register" [disabled]="registerForm.invalid">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
