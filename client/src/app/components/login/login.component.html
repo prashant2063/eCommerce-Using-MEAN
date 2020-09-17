@@ -10,12 +10,16 @@
                     <div id="login" class="d-block">
                         <form [formGroup]="loginForm" (ngSubmit)="loginBtnClickEventHandler();">
                             <div class="form-group">
-                                <label for="loginUsername">Email</label>
-                                <input id="loginUsername" class="form-control" type="text" name="username"
-                                    formControlName="username" autocomplete="off">
-                                <div *ngIf="loginForm.get('username').errors?.required && loginForm.get('username').touched"
+                                <label for="loginemail">Email</label>
+                                <input id="loginemail" class="form-control" type="text" name="email"
+                                    formControlName="email" autocomplete="off">
+                                <div *ngIf="loginForm.get('email').errors?.required && loginForm.get('email').touched"
                                     class="text-danger small">
-                                    *Username is Required
+                                    *Email is Required
+                                </div>
+                                <div *ngIf="loginForm.get('email').errors?.email && loginForm.get('email').touched"
+                                    class="text-danger small">
+                                    *Please Enter a valid email
                                 </div>
                             </div>
                             <div class="form-group">
@@ -101,6 +105,7 @@
                             </div>
                         </form>
                     </div>
+                    <div class="d-none" id="message"></div>
                 </div>
             </div>
         </div>

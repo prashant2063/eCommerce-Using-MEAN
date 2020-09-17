@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user/user.service';
 
 import { matchPassword } from './match-passwords';
 @Component({
@@ -10,42 +12,105 @@ import { matchPassword } from './match-passwords';
 export class LoginComponent implements OnInit {
 
   loginForm = new FormGroup({
-    username: new FormControl("",Validators.required),
-    password: new FormControl("",[Validators.required,Validators.minLength(8),Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/)])
+    email: new FormControl("", [Validators.required, Validators.email]),
+    password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/)])
   });
 
   registerForm = new FormGroup({
-    name: new FormControl("",Validators.required),
-    email: new FormControl("",[Validators.required,Validators.email]),
-    password: new FormControl("",[Validators.required,Validators.minLength(8),Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/)]),
-    rePassword: new FormControl("",[Validators.required,Validators.minLength(8)])
-  },{
-    validators:matchPassword('password','rePassword')
+    name: new FormControl("", Validators.required),
+    email: new FormControl("", [Validators.required, Validators.email]),
+    password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/)]),
+    rePassword: new FormControl("", [Validators.required, Validators.minLength(8)])
+  }, {
+    validators: matchPassword('password', 'rePassword')
   });
-  constructor() { }
+  constructor(public router: Router, public userService: UserService) { }
 
   ngOnInit(): void {
   }
 
-  showLogin(){
+  showLogin() {
+    document.getElementById('message').classList.replace("d-block","d-none");
     document.getElementById('registerTab').classList.remove("btn-primary")
     document.getElementById('loginTab').classList.add("btn-primary")
-    document.getElementById('register').classList.replace("d-block","d-none")
-    document.getElementById('login').classList.replace("d-none","d-block")
+    document.getElementById('register').classList.replace("d-block", "d-none")
+    document.getElementById('login').classList.replace("d-none", "d-block")
+    this.loginForm.reset();
   }
 
-  showRegister(){
+  showRegister() {
+    document.getElementById('message').classList.replace("d-block","d-none");
     document.getElementById('loginTab').classList.remove("btn-primary")
     document.getElementById('registerTab').classList.add("btn-primary")
-    document.getElementById('login').classList.replace("d-block","d-none")
-    document.getElementById('register').classList.replace("d-none","d-block")
+    document.getElementById('login').classList.replace("d-block", "d-none")
+    document.getElementById('register').classList.replace("d-none", "d-block")
+    this.registerForm.reset()
   }
 
-  loginBtnClickEventHandler(){
-    console.log(this.loginForm);
+  loginBtnClickEventHandler() {
+    let userCredentials = {
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password
+    }
+    this.userService.doUserValidation(userCredentials)
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.userService.setName(data["name"]);
+            this.userService.setLogInStatus(true);
+            this.router.navigateByUrl("/");
+          }
+        },
+        (err) => {
+          if(err.status === 401){
+            this.setMessage("You have entered incorrect credentials",-1);
+          }
+          else{
+            this.setMessage("Something went wrong. Please try again later.",-1);
+          }
+        }
+      )
   }
 
-  registerBtnClickEventHandler(){
-    console.log(this.registerForm);
+  registerBtnClickEventHandler() {
+    let user = {
+      name: this.registerForm.value.name,
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.password
+    }
+    this.userService.registerUser(user)
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.setMessage("You have registered successfully.",1);
+          }
+        },
+        (err) => {
+          if(err.status === 409){
+            this.setMessage("User with similar email already exists",-1)
+          }
+          else{
+            this.setMessage("Something went wrong. Please try again later.",-1);
+          }
+        }
+      )
+  }
+
+  setMessage(msg,type) {
+    let div = document.getElementById("message");
+    div.innerHTML = "";
+    let span = document.createElement("span");
+    let textNode = document.createTextNode(msg);
+    span.append(textNode);
+    div.append(span);
+    div.classList.replace("d-none","d-block")
+    if(type==1){
+      div.classList.remove("error");
+      div.classList.add("success")
+    }
+    else{
+      div.classList.remove("success");
+      div.classList.add("error")
+    }
   }
 }
