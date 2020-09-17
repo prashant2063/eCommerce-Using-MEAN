@@ -1,0 +1,53 @@
+<div class="container pb-4">
+    <div class="card">
+        <div class="card-header bg-primary">
+            <div class="card-title">
+                Contact Us
+            </div>
+        </div>
+        <div class="card-body bg-light">
+            <form #contactForm="ngForm" (ngSubmit)="submitContactRequest()" novalidate>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="issue">Select Issue</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select name="issue" id="issue" class="form-control" [(ngModel)]="formData.issue"
+                                #issue="ngModel" required>
+                                <option value="">Select your Issue</option>
+                                <option>Order</option>
+                                <option>Payment</option>
+                                <option>Delivery</option>
+                                <option>Account</option>
+                            </select>
+                            <div *ngIf="issue.invalid && issue.touched">
+                                <small class="text-danger">*Issue is required</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="description">Describe your issue</label>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea name="description" id="description" rows="3" maxlength="500" class="form-control"
+                                [(ngModel)]="formData.description" #description="ngModel" required></textarea>
+                            <div *ngIf="description.invalid && description.touched">
+                                <small class="text-danger">*Description is required</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <input type="submit" class="btn btn-primary" [disabled]="contactForm.invalid">
+                </div>
+            </form>
+            <div *ngIf="isVisible" class="success">
+                <span>We have received your request. We'll get in touch with you soon.</span>
+            </div>
+        </div>
+    </div>
+</div>

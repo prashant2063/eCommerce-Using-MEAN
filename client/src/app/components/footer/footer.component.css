@@ -1,0 +1,10 @@
+.heading{
+    color: grey;
+}
+li{
+    font-size: 0.9em;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}

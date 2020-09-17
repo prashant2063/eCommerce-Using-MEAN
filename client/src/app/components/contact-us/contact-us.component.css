@@ -1,0 +1,11 @@
+.card-title{
+    color: honeydew;
+    font-size: 1.5em;
+}
+.success{
+    padding: 10px;
+    margin-top: 10px;
+    background-color: rgb(226, 253, 214);
+    color: seagreen;
+    border-radius: 10px;
+}
