@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { VirtualTimeScheduler } from 'rxjs';
+import { ProductListingService } from 'src/app/services/product-listing/product-listing.service';
 
 @Component({
   selector: 'app-home',
@@ -7,17 +9,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  products: Array<number>;
+  products;
   filter: any = {};
 
-  constructor() { 
-    this.products = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
+  constructor(public productListingService: ProductListingService) { 
+    this.productListingService.fetchProducts(this.filter)
+    .subscribe(
+      (data)=>{
+        this.products = data;
+      },
+      (err)=>{
+        console.log(err)
+      }
+    )
   }
 
   ngOnInit(): void {
   }
 
   applyFilter(){
-    console.log("filered")
+    this.productListingService.fetchProducts(this.filter)
+    .subscribe(
+      (data)=>{
+        this.products = data;
+      },
+      (err)=>{
+        console.log(err)
+      }
+    )
   }
 }

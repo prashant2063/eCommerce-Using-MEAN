@@ -10,9 +10,11 @@ import { HomeComponent } from './components/home/home.component';
 import { ContactUsComponent } from './components/contact-us/contact-us.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { LoginComponent } from './components/login/login.component';
+import { HttpClientModule } from '@angular/common/http';
 
 import { UserService } from './services/user/user.service';
-import { HttpClientModule } from '@angular/common/http';
+import { ProductListingService } from './services/product-listing/product-listing.service';
+import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     ContactUsComponent,
     AboutUsComponent,
-    LoginComponent
+    LoginComponent,
+    EllipsisPipe
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
-    UserService    
+    UserService,    
+    ProductListingService
   ],
   bootstrap: [AppComponent]
 })

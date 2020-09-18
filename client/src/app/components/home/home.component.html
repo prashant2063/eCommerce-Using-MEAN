@@ -31,64 +31,76 @@
     </div>
     <div class="row">
         <div class="col-md-3 border-right bg-light pl-5">
-            <form>
+            <form #filters="ngForm">
                 <div class="form-group">
                     <label class="filter-name">For</label>
                     <div class="form-ckeck mx-5">
-                        <input type="radio" id="men" class="form-check-input" value="men" name="for" (change)="applyFilter()">
+                        <input type="radio" id="men" class="form-check-input" value="Men" name="for"
+                            (change)="applyFilter()" [(ngModel)]="filter.for" #for>
                         <label class="form-check-label" for="men">Men</label>
                     </div>
                     <div class="form-ckeck mx-5">
-                        <input type="radio" id="women" class="form-check-input" value="women" name="for" (change)="applyFilter()">
+                        <input type="radio" id="women" class="form-check-input" value="Women" name="for"
+                            (change)="applyFilter()" [(ngModel)]="filter.for" #for>
                         <label class="form-check-label" for="women">Women</label>
                     </div>
                     <div class="form-ckeck mx-5">
-                        <input type="radio" id="kids" class="form-check-input" value="kids" name="for" (change)="applyFilter()">
+                        <input type="radio" id="kids" class="form-check-input" value="Kids" name="for"
+                            (change)="applyFilter()" [(ngModel)]="filter.for" #for>
                         <label class="form-check-label" for="kids">Kids</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="filter-name">Category</label>
                     <div class="form-ckeck mx-5">
-                        <input type="radio" id="topwear" class="form-check-input" value="topwear" name="category" (change)="applyFilter()">
+                        <input type="radio" id="topwear" class="form-check-input" value="Topwear" name="category"
+                            (change)="applyFilter()" [(ngModel)]="filter.category" #category>
                         <label class="form-check-label" for="topwear">Topwear</label>
                     </div>
                     <div class="form-ckeck mx-5">
-                        <input type="radio" id="bottomwear" class="form-check-input" value="bottomwear" name="category" (change)="applyFilter()">
+                        <input type="radio" id="bottomwear" class="form-check-input" value="Bottomwear" name="category"
+                            (change)="applyFilter()" [(ngModel)]="filter.category" #category>
                         <label class="form-check-label" for="bottomwear">Bottomwear</label>
                     </div>
                     <div class="form-ckeck mx-5">
-                        <input type="radio" id="footwear" class="form-check-input" value="footwear" name="category" (change)="applyFilter()">
+                        <input type="radio" id="footwear" class="form-check-input" value="Footwear" name="category"
+                            (change)="applyFilter()" [(ngModel)]="filter.category" #category>
                         <label class="form-check-label" for="footwear">Footware</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="filter-name">Price Range</label>
                     <div class="d-flex justify-content-around">
-                        <input type="number" min="0" class="form-control w-25 d-inline-block" placeholder="Min" (change)="applyFilter()">
-                        <input type="number" min="0" class="form-control w-25 d-inline-block" placeholder="Max" (change)="applyFilter()">
+                        <input type="number" name="mini" min="0" class="form-control w-25 d-inline-block"
+                            placeholder="Min" (change)="applyFilter()" [(ngModel)]="filter.mini" #mini>
+                        <input type="number" name="maxi" min="0" class="form-control w-25 d-inline-block"
+                            placeholder="Max" (change)="applyFilter()" [(ngModel)]="filter.maxi" #maxi>
                     </div>
                 </div>
+                <!-- {{filters.value | json}} -->
             </form>
-        </div>  
+        </div>
         <div class="col-md-9 border-left">
-            <div class="card-deck mx-auto">
-                <div class="col-md-4 py-3" *ngFor="let product of products">
-                    <a href="javascript:void(0)">
-                        <div class="card">
-                            <div class="card-body p-0 text-center bg-secondary">
-                                <img class="img-fluid" src="https://via.placeholder.com/300x300?text=300x300+Product" alt="">
-                            </div>
-                            <div class="card-footer">
-                                <div class="card-title">
-                                    <h4>Product</h4>
+            <div class="row">
+                <div class="card-deck mx-auto">
+                    <div class="col-md-4 p-0 d-flex " *ngFor="let product of products">
+                        <div class="card p-0 m-2">
+                            <a href="javascript:void(0)" data-toggle="tooltip" title="{{product.title}}">
+                                <div class="card-body p-0 text-center bg-secondary">
+                                    <img class="img-fluid" src='{{"http://localhost:3000/products/"+product.thumbnail}}'
+                                        alt="">
                                 </div>
-                                <div class="card-text">
-                                    {{1000 | currency:"INR"}}
+                                <div class="card-footer">
+                                    <div class="card-title">
+                                        <h6>{{product.title |ellipsis:40}}</h6>
+                                    </div>
+                                    <div class="card-text">
+                                        {{product.price | currency:"INR"}}
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
