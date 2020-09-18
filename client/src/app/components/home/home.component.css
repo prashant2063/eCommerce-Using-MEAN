@@ -1,3 +1,23 @@
+@media only screen and (max-width: 768px){
+    #highlights .carousel-inner .carousel-item{
+        height: unset;
+    }
+    #highlights .carousel-inner img{
+        width: 100% !important;
+        height: unset;
+    }
+}
+@media only screen and (min-width: 768px){
+    #highlights .carousel-inner .carousel-item{
+        background-color: rgb(207, 194, 194);
+        height: 75vh;
+    }
+    #highlights .carousel-inner .carousel-item img{
+        height: 100%;
+        margin: 0 auto;
+        object-fit: cover !important;
+    }
+}
 a{
     text-decoration: none;
 }
