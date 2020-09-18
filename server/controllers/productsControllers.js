@@ -37,7 +37,6 @@ function fetchProducts(request, response){
                         query['price'] = {};
                         query['price']['$lt'] = filter['maxi'];
                     }
-                    console.log(query)
                     coll.find(query).toArray((err, res) => {
                         if (err) {
                             response.status(500);

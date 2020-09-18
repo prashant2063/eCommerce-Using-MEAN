@@ -15,7 +15,6 @@ const app = express();
 
 
 app.use(express.static(path.join(__dirname, "public")));
-console.log(path.join(__dirname, "public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
