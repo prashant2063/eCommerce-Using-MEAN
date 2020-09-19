@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CartService } from 'src/app/services/cart/cart.service';
 import { ProductListingService } from 'src/app/services/product-listing/product-listing.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -16,8 +17,12 @@ export class HomeComponent implements OnInit {
   filter: any = {};
   productDetails: any;
   productSpecifications;
+  productCount: number;
+  isAddedToCartSuccessfully: boolean;
 
-  constructor(public productListingService: ProductListingService, public userService: UserService, public router: Router) { 
+  constructor(public productListingService: ProductListingService, public userService: UserService, public cartService: CartService, public router: Router) { }
+
+  ngOnInit(): void {
     this.productListingService.fetchProducts(this.filter)
     .subscribe(
       (data)=>{
@@ -27,14 +32,13 @@ export class HomeComponent implements OnInit {
         console.log(err)
       }
     )
-    this.productDetails = null
-  }
-
-  ngOnInit(): void {
+    this.productDetails = null;
+    this.productCount=1;
+    this.isAddedToCartSuccessfully = false;
   }
 
   ngDoCheck(): void {
-    $('#product-details').on('hide.bs.modal', function () {
+    $('#product-details').on('hidden.bs.modal', function () {
       let carouselImages = document.getElementById('product-images').getElementsByClassName('carousel-item');
       for (let i = 0; i < carouselImages.length; i++) {
         let image = carouselImages[i];
@@ -57,6 +61,7 @@ export class HomeComponent implements OnInit {
   }
 
   displayProductDetails(product){
+    this.isAddedToCartSuccessfully = false;
     this.productSpecifications = Object.keys(product['specifications']);
     this.productDetails = product;
   }
@@ -66,6 +71,26 @@ export class HomeComponent implements OnInit {
     if(!this.userService.getLogInStatus()){
       $('#product-details').modal('hide');
       this.router.navigateByUrl("/login");
+    }
+    else{
+      
+      let product = {
+        userId: this.userService.getUserId(),
+        productId: this.productDetails['_id'],
+        productCount: this.productCount
+      }
+      this.cartService.addToCart(product)
+      .subscribe(
+        (data)=>{
+          this.isAddedToCartSuccessfully = true;
+          this.cartService.getItemsCount(this.userService.getUserId());
+        },
+        (err)=>{
+          if(err){
+            console.log(err);
+          }
+        }
+      )
     }
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CartService } from 'src/app/services/cart/cart.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 import { matchPassword } from './match-passwords';
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
   }, {
     validators: matchPassword('password', 'rePassword')
   });
-  constructor(public router: Router, public userService: UserService) { }
+  constructor(public router: Router, public userService: UserService, public cartService: CartService) { }
 
   ngOnInit(): void {
   }
@@ -56,8 +57,10 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data) {
+            this.cartService.getItemsCount(data["_id"]);
             this.userService.setName(data["name"]);
             this.userService.setLogInStatus(true);
+            this.userService.setUserId(data["_id"]);
             this.router.navigateByUrl("/");
           }
         },

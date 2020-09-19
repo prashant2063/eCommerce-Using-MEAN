@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CartService } from 'src/app/services/cart/cart.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
@@ -8,13 +10,18 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public userSerVice: UserService) { }
+  itemsInCart: number;
+
+  constructor(public userSerVice: UserService, public cartService: CartService, public router: Router) {}
 
   ngOnInit(): void {
+    this.cartService.getItemsCount(this.userSerVice.getUserId());
   }
 
   logoutBtnClickEventHandler(){
-    this.userSerVice.setName("");
+    this.userSerVice.setUserId(null);
+    this.userSerVice.setName(null);
     this.userSerVice.setLogInStatus(false);
+    this.router.navigateByUrl("/")
   }
 }

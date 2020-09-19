@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from './../../../environments/environment'
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +10,16 @@ export class UserService {
   private myBaseServerUrl = environment.serverUrl;
   private name: string;
   private isLoggedIn: boolean;
+  private userId: string;
 
-  constructor(public httpClient: HttpClient, public router: Router) {
-    this.name = "";
-    this.isLoggedIn = false;
+  constructor(public httpClient: HttpClient) {
+    this.userId = "5f63518d63987561964752ac",
+    this.name = "Admin";
+    this.isLoggedIn = true;
+  }
+
+  getUserId(){
+    return this.userId;
   }
 
   getName(){
@@ -27,6 +32,10 @@ export class UserService {
 
   getMyBaseServerUrl(){
     return this.myBaseServerUrl;
+  }
+
+  setUserId(id){
+    this.userId = id;
   }
 
   setName(name){

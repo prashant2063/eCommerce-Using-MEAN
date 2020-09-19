@@ -5,8 +5,8 @@ const cors = require("cors");
 
 
 const userRoutes = require("./routes/userRoutes");
-const productsRoutes = require("./routes/productsRoutes");
-
+const productRoutes = require("./routes/productRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 
 const PORT = 3000;
 
@@ -21,7 +21,8 @@ app.use(cors());
 
 
 app.use("/api/user",userRoutes);
-app.use("/api/products",productsRoutes);
+app.use("/api/products",productRoutes);
+app.use("/api/cart",cartRoutes);
 
 app.listen(PORT,(err)=>{
     if (!err)

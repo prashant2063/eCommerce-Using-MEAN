@@ -14,7 +14,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { UserService } from './services/user/user.service';
 import { ProductListingService } from './services/product-listing/product-listing.service';
+import { CartService } from './services/cart/cart.service';
 import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
+import { CartComponent } from './components/cart/cart.component';
+import { LimitPipe } from './pipes/limit/limit.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
     ContactUsComponent,
     AboutUsComponent,
     LoginComponent,
-    EllipsisPipe
+    EllipsisPipe,
+    CartComponent,
+    LimitPipe
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,8 @@ import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
   ],
   providers: [
     UserService,    
-    ProductListingService
+    ProductListingService,
+    CartService
   ],
   bootstrap: [AppComponent]
 })

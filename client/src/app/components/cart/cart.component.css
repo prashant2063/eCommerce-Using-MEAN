@@ -1,0 +1,8 @@
+.product-count{
+    width: 50px;
+}
+.toast{
+    position: absolute; 
+    bottom: 0; 
+    right: 0;
+}

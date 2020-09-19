@@ -98,17 +98,18 @@
         <div class="col-md-9 border-left py-5">
             <div class="row">
                 <div class="card-deck mx-auto">
-                    <div class="col-md-4 p-0 d-flex " *ngFor="let product of products">
+                    <div class="col-md-3 p-0 d-flex " *ngFor="let product of products">
                         <div class="card p-0 m-2">
                             <a href="javascript:void(0)" data-toggle="tooltip" title="{{product.title}}"
-                                data-toggle="modal" data-target="#product-details" (click)="displayProductDetails(product)">
+                                data-toggle="modal" data-target="#product-details"
+                                (click)="displayProductDetails(product)">
                                 <div class="card-body p-0 text-center bg-secondary">
                                     <img class="img-fluid" src='{{"http://localhost:3000/products/"+product.thumbnail}}'
                                         alt="">
                                 </div>
-                                <div class="card-footer">
+                                <div class="card-footer d-flex">
                                     <div class="card-title">
-                                        <h6>{{product.title |ellipsis:40}}</h6>
+                                        <h6>{{product.title |ellipsis:30}}</h6>
                                     </div>
                                     <div class="card-text">
                                         {{product.price | currency:"INR"}}
@@ -125,8 +126,9 @@
 
 
 <div *ngIf="productDetails">
-    <div id="product-details" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+    <div id="product-details" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-center" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button class="close" data-dismiss="modal" aria-label="Close">
@@ -139,10 +141,14 @@
                             <div id="product-images" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active" id="thumbnail">
-                                        <img class="d-block w-100" src="{{'http://localhost:3000/products/'+productDetails['thumbnail']}}" alt="{{productDetails.title}}">
+                                        <img class="d-block w-100"
+                                            src="{{'http://localhost:3000/products/'+productDetails['thumbnail']}}"
+                                            alt="{{productDetails.title}}">
                                     </div>
                                     <div class="carousel-item" *ngFor="let productImage of productDetails['images']">
-                                        <img class="d-block w-100" src="{{'http://localhost:3000/products/'+productImage}}" alt="{{productDetails.title}}">
+                                        <img class="d-block w-100"
+                                            src="{{'http://localhost:3000/products/'+productImage}}"
+                                            alt="{{productDetails.title}}">
                                     </div>
                                 </div>
                                 <a class="carousel-control-prev" href="#product-images" data-slide="prev" role="button">
@@ -164,8 +170,17 @@
                                     <h6>{{productDetails['specifications'][spec]}}</h6>
                                 </div>
                             </div>
-                            <div class="text-right mt-5">
-                                <button class="btn btn-primary" (click)="addToCartBtnClickEventHandler()">Add to Cart</button>
+
+                            <div class="input-group mt-5 justify-content-end">
+                                <input [(ngModel)]="productCount" id="product-count" type="number">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" (click)="addToCartBtnClickEventHandler()"
+                                        [disabled]="!productCount || productCount<=0">Add to
+                                        Cart</button>
+                                </div>
+                            </div>
+                            <div *ngIf="isAddedToCartSuccessfully" class="success mt-3">
+                                <span>Successfully Added to cart</span>
                             </div>
                         </div>
                     </div>
