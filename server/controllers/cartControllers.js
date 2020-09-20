@@ -231,4 +231,31 @@ function updateItem(request, response) {
     })
 }
 
-module.exports = { addToCart, getItemsCount, getItems, removeItem, updateItem }
+function removeItemsBYUserId(userId) {
+    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+        if (err) {
+            console.log(err)
+        }
+        else {
+            let db = dbHost.db("shopSpot");
+            db.collection("cart", (err, coll) => {
+                if (err) {
+                    console.log(Err)
+                }
+                else {
+                    let query = { userId }
+                    coll.deleteMany(query, (err, res) => {
+                        if (err) {
+                            console.log(err)
+                        }
+                        else {
+                            console.log(res)
+                        }
+                    })
+                }
+            })
+        }
+    })
+}
+
+module.exports = { addToCart, getItemsCount, getItems, removeItem, updateItem, removeItemsBYUserId }

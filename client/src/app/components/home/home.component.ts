@@ -73,7 +73,6 @@ export class HomeComponent implements OnInit {
       this.router.navigateByUrl("/login");
     }
     else{
-      
       let product = {
         userId: this.userService.getUserId(),
         productId: this.productDetails['_id'],
@@ -83,6 +82,7 @@ export class HomeComponent implements OnInit {
       .subscribe(
         (data)=>{
           this.isAddedToCartSuccessfully = true;
+          this.productCount = 1;
           this.cartService.getItemsCount(this.userService.getUserId());
         },
         (err)=>{
@@ -93,5 +93,4 @@ export class HomeComponent implements OnInit {
       )
     }
   }
-
 }

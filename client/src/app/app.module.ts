@@ -15,6 +15,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './services/user/user.service';
 import { ProductListingService } from './services/product-listing/product-listing.service';
 import { CartService } from './services/cart/cart.service';
+import { AddressService } from './services/address/address.service';
+import { OrderService } from './services/order/order.service';
 import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
 import { CartComponent } from './components/cart/cart.component';
 import { LimitPipe } from './pipes/limit/limit.pipe';
@@ -42,7 +44,9 @@ import { LimitPipe } from './pipes/limit/limit.pipe';
   providers: [
     UserService,    
     ProductListingService,
-    CartService
+    CartService,
+    AddressService,
+    OrderService
   ],
   bootstrap: [AppComponent]
 })

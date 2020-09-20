@@ -1,13 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 .error, .success{
-    padding: 5px;
-    border-radius: 5px;
+    padding: 10px;
+    border-radius: 10px;
 }
 .error{
     background-color: rgb(248, 169, 169);
     color: rgb(87, 0, 0);
 }
 .success{
-    background-color: rgb(216, 255, 184);
-    color: rgb(4, 70, 24);
+    background-color: rgb(226, 253, 214);
+    color: seagreen;
 }

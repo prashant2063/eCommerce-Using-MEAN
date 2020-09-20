@@ -1,5 +1,9 @@
+import { collectExternalReferences } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AddressService } from 'src/app/services/address/address.service';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { OrderService } from 'src/app/services/order/order.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 declare var $: any;
@@ -14,8 +18,12 @@ export class CartComponent implements OnInit {
   cartItems;
   totalPrice: number;
   gst: number;
+  newAddress: any = {};
+  addresses;
+  selectedAddress;
+  modeOfPayment;
 
-  constructor(public userService: UserService, public cartService: CartService) { }
+  constructor(public userService: UserService, public cartService: CartService, public addressService: AddressService, public orderService: OrderService, public router: Router) { }
 
   ngOnInit(): void {
     this.totalPrice = 0;
@@ -23,6 +31,7 @@ export class CartComponent implements OnInit {
       .subscribe(
         (data) => {
           this.cartItems = data;
+          // console.log(data);
           for (let item of this.cartItems) {
             let price = item['productDetails']['price'] as number;
             let quantity = item['productCount'] as number
@@ -34,6 +43,8 @@ export class CartComponent implements OnInit {
         }
       )
     this.gst = 0.18;
+    this.selectedAddress = null;
+    this.modeOfPayment = null;
   }
 
   removeItemFromCart(_id) {
@@ -60,6 +71,13 @@ export class CartComponent implements OnInit {
       this.cartService.updateItem(_id, value)
         .subscribe(
           (data) => {
+            this.cartItems.find(item=>{
+              if(item['_id'] == _id){
+                this.totalPrice -= item['productDetails']['price']*item['productCount']
+                item['productCount'] = parseInt(value)
+                this.totalPrice += item['productDetails']['price']*item['productCount']
+              }
+            })
             $('.toast').toast({
               animation: true,
               delay: 1000
@@ -71,5 +89,78 @@ export class CartComponent implements OnInit {
           }
         )
     }
+  }
+
+  addNewAddress(){
+    if(!this.newAddress['addressLine2']){
+      this.newAddress['addressLine2'] = "";
+    }
+    let address = {
+      userId: this.userService.getUserId(),
+      name: this.newAddress['name'],
+      phone: this.newAddress['phone'],
+      address: this.newAddress['addressLine1'] + " " + this.newAddress['addressLine2'],
+      pin: this.newAddress['pin']
+    }
+    this.addressService.addNewAddress(address)
+    .subscribe(
+      (data)=>{
+        this.addresses.push(data);
+        console.log(data)
+      },
+      (err)=>{
+        console.log(err)
+      }
+    )
+  }
+
+  getAddresses(){
+    this.addressService.getAddresses(this.userService.getUserId())
+    .subscribe(
+      (data)=>{
+        this.addresses = data;
+      },
+      (err)=>{
+        console.log(err);
+      }
+    )
+  }
+
+  removeAddress(_id){
+    this.addressService.removeAddress(_id)
+    .subscribe(
+      (data)=>{
+        this.addresses = this.addresses.filter(address => address['_id']!=_id);
+        this.selectedAddress = null;
+      },
+      (err)=>{
+        console.log(err);
+      }
+    )
+  }
+
+  placeOrder(){
+    let orders = [];
+    for(let item of this.cartItems){
+      let order = {
+        userId: this.userService.getUserId(),
+        productId: item['productDetails']['_id'],
+        productCount: item['productCount'],
+        address: this.selectedAddress,
+        modeOfPayment: this.modeOfPayment,
+        timestamp: Date.now()
+      }
+      orders.push(order);
+    }
+    this.orderService.placeOrder(orders)
+    .subscribe(
+      (data)=>{
+        this.cartService.getItemsCount(this.userService.getUserId());
+        this.router.navigateByUrl("/")
+      },
+      (err)=>{
+        console.log(err);
+      }
+    )
   }
 }

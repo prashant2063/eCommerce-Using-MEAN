@@ -1,6 +1,5 @@
 var express=require("express");
 const cartControllers = require("../controllers/cartControllers");
-const { route } = require("./userRoutes");
 
 var router=express.Router();
 

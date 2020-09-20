@@ -1,62 +1,211 @@
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-8 border-right">
-            <div *ngFor="let cartItem of cartItems">
-                <div class="card border-0 mb-4">
-                    <div class="row no-gutters">
-                        <div class="col-md-2">
-                            <img [src]="'http://localhost:3000/products/'+cartItem['productDetails']['thumbnail']"
-                                class="card-img" alt="">
-                        </div>
-                        <div class="col-md-10">
-                            <div class="card-body">
-                                <h5 class="card-title">{{cartItem['productDetails']['title']}}</h5>
-
-                                <div class="card-text">
-                                    <p class="w-50 d-inline-block">Price</p>
-                                    <p class="w-50 d-inline-block">
-                                        {{cartItem['productDetails']['price'] | currency : "INR"}}</p>
-                                    <p class="w-50 d-inline-block">Quantity</p>
-                                    <p class="w-50 d-inline-block">
-                                        <input value="{{cartItem['productCount']}}" class="product-count" type="number" min="1"
-                                            (change)="$event.target.value && updateProductCount(cartItem['_id'], $event.target.value)">
-                                    </p>
+<div class="container my-4">
+    <div class="accordion" id="accordion" *ngIf="cartService.cartItemsCount;else emptyCart">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0 text-muted">Cart</h5>
+            </div>
+            <div id="cart-section" class="collapse show" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8 border-right">
+                            <div *ngFor="let cartItem of cartItems">
+                                <div class="card border-0 mb-4">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-2">
+                                            <img [src]="'http://localhost:3000/products/'+cartItem['productDetails']['thumbnail']"
+                                                class="card-img" alt="">
+                                        </div>
+                                        <div class="col-md-10">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{cartItem['productDetails']['title']}}</h5>
+                                                <div class="card-text">
+                                                    <p class="w-50 d-inline-block">Price</p>
+                                                    <p class="w-50 d-inline-block">
+                                                        {{cartItem['productDetails']['price'] | currency : "INR"}}</p>
+                                                    <p class="w-50 d-inline-block">Quantity</p>
+                                                    <p class="w-50 d-inline-block">
+                                                        <input value="{{cartItem['productCount']}}"
+                                                            class="product-count" type="number" min="1"
+                                                            (change)="$event.target.value && updateProductCount(cartItem['_id'], $event.target.value)">
+                                                    </p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <h6 class="d-inline-block p-0 m-0" role="button"
+                                                        (click)="removeItemFromCart(cartItem['_id'])">REMOVE</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="text-right">
-                                    <h6 class="d-inline-block p-0 m-0" role="button"
-                                        (click)="removeItemFromCart(cartItem['_id'])">REMOVE</h6>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card" [hidden]="totalPrice<=0">
+                                <div class="card-body">
+                                    <h5 class="card-title">Price Details</h5>
+                                    <div class="card-text">
+                                        <p class="w-50 d-inline-block">Price</p>
+                                        <p class="w-50 d-inline-block">{{totalPrice | currency : "INR"}}</p>
+                                        <p class="w-50 d-inline-block">
+                                            GST
+                                            <span class="text-muted">
+                                                ({{gst|percent}})
+                                            </span>
+                                        </p>
+                                        <p class="w-50 d-inline-block">{{totalPrice*gst | currency : "INR"}}</p>
+                                        <h6 class="w-50 d-inline-block">Total Amount</h6>
+                                        <h6 class="w-50 d-inline-block">{{totalPrice*(1+gst) | currency : "INR"}}</h6>
+                                    </div>
+                                </div>
+                                <div class="card-footer p-0">
+                                    <button class="btn btn-primary w-100" data-toggle="collapse"
+                                        data-target="#address-section" (click)="getAddresses()">Checkout</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <hr>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
+
+
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="text-muted mb-0">
+                    Address
+                </h5>
+            </div>
+            <div id="address-section" class="collapse" data-parent="#accordion">
                 <div class="card-body">
-                    <h5 class="card-title">Price Details</h5>
-                    <div class="card-text">
-                        <p class="w-50 d-inline-block">Price</p>
-                        <p class="w-50 d-inline-block">{{totalPrice | currency : "INR"}}</p>
-                        <p class="w-50 d-inline-block">GST</p>
-                        <p class="w-50 d-inline-block">{{totalPrice*gst | currency : "INR"}} <span
-                                class="text-muted">({{gst|percent}})</span></p>
-                        <h6 class="w-50 d-inline-block">Total Amount</h6>
-                        <h6 class="w-50 d-inline-block">{{totalPrice*(1+gst) | currency : "INR"}}</h6>
+                    <div class="form-check" *ngFor="let address of addresses">
+                        <input type="radio" class="form-check-input" [id]="address['_id']" [value]="address['_id']"
+                            [(ngModel)]="selectedAddress">
+                        <label class="form-check-label w-100" [for]="address['_id']">
+                            <h6 class="w-50 d-inline-block">{{address['name']}}</h6>
+                            <h6 class="w-50 d-inline-block">{{address['phone']}}</h6>
+                            <p class="text-muted mb-0">{{address['address']}}</p>
+                            <p>{{address['pin']}}</p>
+                        </label>
+                        <div class="text-right">
+                            <button class="btn btn-danger" (click)="removeAddress(address['_id'])">Remove</button>  
+                        </div>
+                        <hr>
+                    </div>
+
+                    <div>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#new-address">Add new
+                            Address</button>
+
+                        <button class="btn btn-primary float-right" data-toggle="collapse"
+                            data-target="#payment-section" [disabled]="!selectedAddress">Proceed</button>
                     </div>
                 </div>
-                <div class="card-footer p-0">
-                    <button class="btn btn-primary w-100">Place Order</button>
+            </div>
+        </div>
+
+
+
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <h5 class="text-muted mb-0">
+                    Payment
+                </h5>
+            </div>
+            <div id="payment-section" class="collapse" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" value="COD" id="cod" [(ngModel)]="modeOfPayment">
+                        <label class="form-check-label" for="cod">COD</label>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary" [disabled]="!modeOfPayment" (click)="placeOrder()">Place
+                            Order</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+
+
+<div id="new-address" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-light">
+                <h5 class="modal-title" id="my-modal-title">Address</h5>
+                <button class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-light">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form (ngSubmit)="addNewAddress();addressForm.reset()" #addressForm="ngForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" required [(ngModel)]="newAddress.name"
+                            name="name" #name="ngModel" placeholder="Required">
+                        <small [hidden]="name.valid || name.pristine" class="text-danger">
+                            *Name is required
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" required [(ngModel)]="newAddress.phone"
+                            name="phone" #phone="ngModel" placeholder="Required">
+                        <small [hidden]="phone.valid || phone.pristine" class="text-danger">
+                            *Phone is required
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address-line-1">Address Line 1</label>
+                        <input type="text" class="form-control" id="address-line-1" required
+                            [(ngModel)]="newAddress.addressLine1" name="addressLine1" #addressLine1="ngModel"
+                            placeholder="Required">
+                        <small [hidden]="addressLine1.valid || addressLine1.pristine" class="text-danger">
+                            *Address is required
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address-line-2">Address Line 2</label>
+                        <input type="text" class="form-control" id="address-line-2"
+                            [(ngModel)]="newAddress.addressLine2" name="addressLine2" #addressLine2="ngModel"
+                            placeholder="Optional">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pin">PIN Code</label>
+                        <input type="text" class="form-control" id="pin" required [(ngModel)]="newAddress.pin"
+                            name="pin" #pin="ngModel" placeholder="Required">
+                        <small [hidden]="pin.valid || pin.pristine" class="text-danger">
+                            *PIN Code is required
+                        </small>
+                    </div>
+
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary" [disabled]="!addressForm.form.valid">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="toast">
     <div class="toast-header success">
         Successfully Updated
     </div>
 </div>
+
+
+<ng-template #emptyCart>
+    <h3 class="text-muted mb-0 text-center">Your Cart is Empty</h3>
+</ng-template>
