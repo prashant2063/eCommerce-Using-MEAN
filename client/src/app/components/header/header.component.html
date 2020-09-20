@@ -14,7 +14,7 @@
                 <a class="nav-link" routerLink="cart" routerLinkActive="active">Cart <span id="items-in-cart">{{cartService.cartItemsCount | limit}}</span></a>
             </li>
             <li class="nav-item" *ngIf="userSerVice.getLogInStatus()">
-                <a class="nav-link">Orders</a>
+                <a class="nav-link" routerLink="order" routerLinkActive="active">Orders</a>
             </li>
 
             <li class="nav-item">

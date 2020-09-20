@@ -17,4 +17,8 @@ export class OrderService {
     return this.httpClient.post(myServerUrl,orders);
   }
 
+  getOrders(userId){
+    const myServerUrl = this.myBaseServerUrl+"api/order/getOrders";
+    return this.httpClient.post(myServerUrl,{userId});
+  }
 }

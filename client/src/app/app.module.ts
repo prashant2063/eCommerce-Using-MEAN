@@ -20,6 +20,7 @@ import { OrderService } from './services/order/order.service';
 import { EllipsisPipe } from './pipes/ellipsis/ellipsis.pipe';
 import { CartComponent } from './components/cart/cart.component';
 import { LimitPipe } from './pipes/limit/limit.pipe';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { LimitPipe } from './pipes/limit/limit.pipe';
     LoginComponent,
     EllipsisPipe,
     CartComponent,
-    LimitPipe
+    LimitPipe,
+    OrderComponent
   ],
   imports: [
     BrowserModule,

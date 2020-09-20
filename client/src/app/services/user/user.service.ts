@@ -13,9 +13,9 @@ export class UserService {
   private userId: string;
 
   constructor(public httpClient: HttpClient) {
-    this.userId = "5f63518d63987561964752ac",
-    this.name = "Admin";
-    this.isLoggedIn = true;
+    this.userId = null,
+    this.name = null;
+    this.isLoggedIn = false;
   }
 
   getUserId(){

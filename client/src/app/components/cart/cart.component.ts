@@ -108,6 +108,7 @@ export class CartComponent implements OnInit {
         this.addresses.push(data);
         console.log(data)
         $('#new-address').modal('hide');
+        this.selectedAddress = null;
       },
       (err)=>{
         console.log(err)
@@ -153,7 +154,7 @@ export class CartComponent implements OnInit {
           address: this.selectedAddress['address'],
           pin: this.selectedAddress['pin']
         },
-        price: item['productDetails']['price'] * (1+this.gst),
+        price: item['productCount'] * item['productDetails']['price'] * (1+this.gst),
         modeOfPayment: this.modeOfPayment,
         timestamp: Date.now()
       }
@@ -163,7 +164,7 @@ export class CartComponent implements OnInit {
     .subscribe(
       (data)=>{
         this.cartService.getItemsCount(this.userService.getUserId());
-        this.router.navigateByUrl("/")
+        this.router.navigateByUrl("order")
       },
       (err)=>{
         console.log(err);
