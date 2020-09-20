@@ -80,7 +80,7 @@
             <div id="address-section" class="collapse" data-parent="#accordion">
                 <div class="card-body">
                     <div class="form-check" *ngFor="let address of addresses">
-                        <input type="radio" class="form-check-input" [id]="address['_id']" [value]="address['_id']"
+                        <input type="radio" class="form-check-input" [id]="address['_id']" [value]="address"
                             [(ngModel)]="selectedAddress">
                         <label class="form-check-label w-100" [for]="address['_id']">
                             <h6 class="w-50 d-inline-block">{{address['name']}}</h6>

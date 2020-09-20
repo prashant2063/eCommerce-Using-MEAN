@@ -64,6 +64,7 @@ export class HomeComponent implements OnInit {
     this.isAddedToCartSuccessfully = false;
     this.productSpecifications = Object.keys(product['specifications']);
     this.productDetails = product;
+    this.productCount = 1;
   }
 
   addToCartBtnClickEventHandler(){
@@ -82,7 +83,6 @@ export class HomeComponent implements OnInit {
       .subscribe(
         (data)=>{
           this.isAddedToCartSuccessfully = true;
-          this.productCount = 1;
           this.cartService.getItemsCount(this.userService.getUserId());
         },
         (err)=>{
