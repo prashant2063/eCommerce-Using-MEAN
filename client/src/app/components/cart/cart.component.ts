@@ -23,7 +23,11 @@ export class CartComponent implements OnInit {
   selectedAddress;
   modeOfPayment;
 
-  constructor(public userService: UserService, public cartService: CartService, public addressService: AddressService, public orderService: OrderService, public router: Router) { }
+  constructor(public userService: UserService, public cartService: CartService, public addressService: AddressService, public orderService: OrderService, public router: Router) { 
+    if(!this.userService.getLogInStatus()){
+      this.router.navigateByUrl("/");
+    }
+  }
 
   ngOnInit(): void {
     this.totalPrice = 0;

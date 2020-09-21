@@ -101,7 +101,7 @@
                                 data-toggle="modal" data-target="#product-details"
                                 (click)="displayProductDetails(product)">
                                 <div class="card-body p-0 text-center bg-secondary">
-                                    <img class="img-fluid" src='{{"http://localhost:3000/products/"+product.thumbnail}}'
+                                    <img class="img-fluid" src='{{userService.getMyBaseServerUrl()+"products/"+product.thumbnail}}'
                                         alt="">
                                 </div>
                                 <div class="card-footer bg-light">
@@ -139,12 +139,12 @@
                                 <div class="carousel-inner">
                                     <div class="carousel-item active" id="thumbnail">
                                         <img class="d-block w-100"
-                                            src="{{'http://localhost:3000/products/'+productDetails['thumbnail']}}"
+                                            src="{{userService.getMyBaseServerUrl()+'products/'+productDetails['thumbnail']}}"
                                             alt="{{productDetails.title}}">
                                     </div>
                                     <div class="carousel-item" *ngFor="let productImage of productDetails['images']">
                                         <img class="d-block w-100"
-                                            src="{{'http://localhost:3000/products/'+productImage}}"
+                                            src="{{userService.getMyBaseServerUrl()+'products/'+productImage}}"
                                             alt="{{productDetails.title}}">
                                     </div>
                                 </div>

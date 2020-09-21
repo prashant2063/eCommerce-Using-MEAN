@@ -1,16 +1,20 @@
-var mongoClient = require("mongodb").MongoClient;
+const mongoClient = require("mongodb").MongoClient;
+const { Connection } = require("./dbConfig");
 
-var mongodbUrl = "mongodb://localhost:27017/";
+const dbUrl = Connection.dbUrl;
+const dbName = Connection.dbName;
+const collectionName = "users";
+
 
 function checkUser(request, response) {
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             response.status(500);
             response.json(err);
         }
         else {
-            let db = dbHost.db("shopSpot");
-            db.collection("users", (err, coll) => {
+            let db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     response.status(500);
                     response.json(err);
@@ -42,14 +46,14 @@ function checkUser(request, response) {
 }
 
 function registerUser(request, response) {
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             response.status(500);
             response.json(err);
         }
         else {
-            var db = dbHost.db("shopSpot");
-            db.collection("users", (err, coll) => {
+            var db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     response.status(500);
                     response.json(err);

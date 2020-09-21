@@ -1,18 +1,21 @@
 const { ObjectId } = require("mongodb");
 
 var mongoClient = require("mongodb").MongoClient;
+const { Connection } = require("./dbConfig");
 
-var mongodbUrl = "mongodb://localhost:27017/";
+const dbUrl = Connection.dbUrl;
+const dbName = Connection.dbName;
+const collectionName = "cart";
 
 function addToCart(request, response) {
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             response.status(500);
             response.json(err);
         }
         else {
-            let db = dbHost.db("shopSpot");
-            db.collection("cart", (err, coll) => {
+            let db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     response.status(500);
                     response.json(err);
@@ -69,14 +72,14 @@ function addToCart(request, response) {
 
 
 function getItemsCount(request, response) {
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             response.status(500);
             response.json(err);
         }
         else {
-            let db = dbHost.db("shopSpot");
-            db.collection("cart", (err, coll) => {
+            let db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     response.status(500);
                     response.json(err);
@@ -102,14 +105,14 @@ function getItemsCount(request, response) {
 }
 
 function getItems(request, response) {
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             response.status(500);
             response.json(err);
         }
         else {
-            let db = dbHost.db("shopSpot");
-            db.collection("cart", (err, coll) => {
+            let db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     response.status(500);
                     response.json(err);
@@ -163,14 +166,14 @@ function getItems(request, response) {
 }
 
 function removeItem(request, response) {
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             response.status(500);
             response.json(err);
         }
         else {
-            let db = dbHost.db("shopSpot");
-            db.collection("cart", (err, coll) => {
+            let db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     response.status(500);
                     response.json(err);
@@ -194,14 +197,14 @@ function removeItem(request, response) {
 }
 
 function updateItem(request, response) {
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             response.status(500);
             response.json(err);
         }
         else {
-            let db = dbHost.db("shopSpot");
-            db.collection("cart", (err, coll) => {
+            let db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     response.status(500);
                     response.json(err);
@@ -232,13 +235,13 @@ function updateItem(request, response) {
 }
 
 function removeItemsBYUserId(userId) {
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             console.log(err)
         }
         else {
-            let db = dbHost.db("shopSpot");
-            db.collection("cart", (err, coll) => {
+            let db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     console.log(Err)
                 }

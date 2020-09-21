@@ -1,16 +1,20 @@
 var mongoClient = require("mongodb").MongoClient;
 
-var mongodbUrl = "mongodb://localhost:27017/";
+const { Connection } = require("./dbConfig");
+
+const dbUrl = Connection.dbUrl;
+const dbName = Connection.dbName;
+const collectionName = "products";
 
 function fetchProducts(request, response){
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             response.status(500);
             response.json(err);
         }
         else {
-            let db = dbHost.db("shopSpot");
-            db.collection("products", (err, coll) => {
+            let db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     response.status(500);
                     response.json(err);

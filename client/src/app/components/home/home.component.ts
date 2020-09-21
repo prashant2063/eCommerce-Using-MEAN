@@ -4,6 +4,8 @@ import { CartService } from 'src/app/services/cart/cart.service';
 import { ProductListingService } from 'src/app/services/product-listing/product-listing.service';
 import { UserService } from 'src/app/services/user/user.service';
 
+import { environment } from 'src/environments/environment';
+
 declare var $: any;
 
 @Component({

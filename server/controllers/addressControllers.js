@@ -2,17 +2,21 @@ const { ObjectId } = require("mongodb");
 
 var mongoClient = require("mongodb").MongoClient;
 
-var mongodbUrl = "mongodb://localhost:27017/";
+const { Connection } = require("./dbConfig");
+
+const dbUrl = Connection.dbUrl;
+const dbName = Connection.dbName;
+const collectionName = "address";
 
 function addNewAddress(request, response) {
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             response.status(500);
             response.json(err);
         }
         else {
-            let db = dbHost.db("shopSpot");
-            db.collection("address", (err, coll) => {
+            let db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     response.status(500);
                     response.json(err);
@@ -39,14 +43,14 @@ function addNewAddress(request, response) {
 }
 
 function removeAddress(request, response){
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             response.status(500);
             response.json(err);
         }
         else {
-            let db = dbHost.db("shopSpot");
-            db.collection("address", (err, coll) => {
+            let db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     response.status(500);
                     response.json(err);
@@ -72,14 +76,14 @@ function removeAddress(request, response){
 }
 
 function getAllAddresses(request, response){
-    mongoClient.connect(mongodbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
+    mongoClient.connect(dbUrl, { useUnifiedTopology: true }, (err, dbHost) => {
         if (err) {
             response.status(500);
             response.json(err);
         }
         else {
-            let db = dbHost.db("shopSpot");
-            db.collection("address", (err, coll) => {
+            let db = dbHost.db(dbName);
+            db.collection(collectionName, (err, coll) => {
                 if (err) {
                     response.status(500);
                     response.json(err);

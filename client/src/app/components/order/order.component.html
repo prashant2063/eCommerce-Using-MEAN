@@ -7,7 +7,7 @@
                         <div class="card border-0">
                             <div class="row no-gutters">
                                 <div class="col-md-2">
-                                    <img [src]="'http://localhost:3000/products/'+order['productDetails']['thumbnail']"
+                                    <img [src]="userService.getMyBaseServerUrl()+'products/'+order['productDetails']['thumbnail']"
                                         class="card-img" alt="">
                                 </div>
                                 <div class="col-md-10">

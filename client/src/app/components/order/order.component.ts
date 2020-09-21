@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { OrderService } from 'src/app/services/order/order.service';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -11,7 +12,11 @@ export class OrderComponent implements OnInit {
 
   orders;
 
-  constructor(public orderService: OrderService, public userService: UserService) { }
+  constructor(public orderService: OrderService, public userService: UserService, public router: Router) { 
+    if(!this.userService.getLogInStatus()){
+      this.router.navigateByUrl("/");
+    }
+  }
 
   ngOnInit(): void {
     this.orderService.getOrders(this.userService.getUserId())
