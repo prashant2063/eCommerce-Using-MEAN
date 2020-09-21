@@ -16,11 +16,11 @@ const PORT = 3000;
 const app = express();
 
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public", "dist", "ShopSpot")));
+app.use("/products",express.static(path.join(__dirname,"public","products")))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
-
 
 app.use("/api/user",userRoutes);
 app.use("/api/products",productRoutes);

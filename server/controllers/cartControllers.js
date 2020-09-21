@@ -252,7 +252,7 @@ function removeItemsBYUserId(userId) {
                             console.log(err)
                         }
                         else {
-                            console.log(res)
+                            // console.log(res)
                         }
                     })
                 }

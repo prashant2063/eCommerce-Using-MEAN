@@ -22,7 +22,7 @@ export class OrderComponent implements OnInit {
     this.orderService.getOrders(this.userService.getUserId())
     .subscribe(
       (data)=>{
-        console.log(data)
+        // console.log(data)
         this.orders = data;
       },
       (err)=>{
