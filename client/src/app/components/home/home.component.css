@@ -24,6 +24,7 @@ a{
 .filter-name{
     font-size: 20px;
     font-weight: 500;
+    padding-left: 25px;
 }
 .card-title, .card-text{
     color: black
@@ -33,4 +34,13 @@ a{
 }
 #product-count{
     width: 75px !important;
+}
+.form-check-label{
+    border-radius: 0 !important;
+    width: 100% !important;
+    text-align: left !important;
+    /* padding-left: 5px; */
+}
+.card:hover{
+    box-shadow: none !important;
 }

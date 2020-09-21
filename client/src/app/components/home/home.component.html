@@ -42,57 +42,128 @@
         </a>
     </div>
     <div class="row">
-        <div class="col-md-3 border-right bg-light pl-5 py-5">
+        <div class="col-lg-2 col-md-3 border-right bg-light py-5 px-0">
             <form #filters="ngForm">
-                <div class="form-group">
-                    <label class="filter-name">For</label>
-                    <div class="form-ckeck mx-5">
-                        <input type="radio" id="men" class="form-check-input" value="Men" name="for"
-                            (change)="applyFilter()" [(ngModel)]="filter.for" #for>
-                        <label class="form-check-label" for="men">Men</label>
+                <div class="accordion" id="filters">
+                    <div class="card border-0">
+                        <div class="card-header p-0">
+                            <div class="form-ckeck" data-toggle="collapse" data-target="#men-section">
+                                <input type="radio" id="men" class="form-check-input" value="Men" name="for"
+                                    (change)="filter['category']=null;applyFilter()" [(ngModel)]="filter.for" #for
+                                    hidden>
+                                <label class="form-check-label btn btn-light pl-4"
+                                    [ngClass]="{'btn-dark' : filter.for == 'Men'}" for="men">Men</label>
+                            </div>
+                        </div>
+                        <div id="men-section" class="collapse" data-parent="#filters">
+                            <div class="card-body p-0">
+                                <div class="form-ckeck">
+                                    <input type="radio" id="topwear" class="form-check-input" value="Topwear"
+                                        name="category" (change)="applyFilter()" [(ngModel)]="filter.category" #category
+                                        hidden>
+                                    <label class="form-check-label btn btn-light pl-5"
+                                        [ngClass]="{'active' : filter.category == 'Topwear'}"
+                                        for="topwear">Topwear</label>
+                                </div>
+                                <div class="form-ckeck">
+                                    <input type="radio" id="bottomwear" class="form-check-input" value="Bottomwear"
+                                        name="category" (change)="applyFilter()" [(ngModel)]="filter.category" #category
+                                        hidden>
+                                    <label class="form-check-label btn btn-light pl-5"
+                                        [ngClass]="{'active' : filter.category == 'Bottomwear'}"
+                                        for="bottomwear">Bottomwear</label>
+                                </div>
+                                <div class="form-ckeck">
+                                    <input type="radio" id="footwear" class="form-check-input" value="Footwear"
+                                        name="category" (change)="applyFilter()" [(ngModel)]="filter.category" #category
+                                        hidden>
+                                    <label class="form-check-label btn btn-light pl-5"
+                                        [ngClass]="{'active' : filter.category == 'Footwear'}"
+                                        for="footwear">Footware</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-ckeck mx-5">
-                        <input type="radio" id="women" class="form-check-input" value="Women" name="for"
-                            (change)="applyFilter()" [(ngModel)]="filter.for" #for>
-                        <label class="form-check-label" for="women">Women</label>
+
+                    <div class="card border-0">
+                        <div class="card-header p-0">
+                            <div class="form-ckeck" data-toggle="collapse" data-target="#women-section">
+                                <input type="radio" id="women" class="form-check-input" value="Women" name="for"
+                                    (change)="filter['category']=null;applyFilter()" [(ngModel)]="filter.for" #for
+                                    hidden>
+                                <label class="form-check-label btn btn-light pl-4"
+                                    [ngClass]="{'btn-dark' : filter.for == 'Women'}" for="women">Women</label>
+                            </div>
+                        </div>
+
+                        <div id="women-section" class="collapse" data-parent="#filters">
+                            <div class="card-body p-0">
+                                <div class="form-ckeck">
+                                    <input type="radio" id="topwear" class="form-check-input" value="Topwear"
+                                        name="category" (change)="applyFilter()" [(ngModel)]="filter.category" #category
+                                        hidden>
+                                    <label class="form-check-label btn btn-light pl-5" for="topwear"
+                                        [ngClass]="{'active' : filter.category == 'Topwear'}">Topwear</label>
+                                </div>
+                                <div class="form-ckeck">
+                                    <input type="radio" id="bottomwear" class="form-check-input" value="Bottomwear"
+                                        name="category" (change)="applyFilter()" [(ngModel)]="filter.category" #category
+                                        hidden>
+                                    <label class="form-check-label btn btn-light pl-5" for="bottomwear"
+                                        [ngClass]="{'active' : filter.category == 'Bottomwear'}">Bottomwear</label>
+                                </div>
+                                <div class="form-ckeck">
+                                    <input type="radio" id="footwear" class="form-check-input" value="Footwear"
+                                        name="category" (change)="applyFilter()" [(ngModel)]="filter.category" #category
+                                        hidden>
+                                    <label class="form-check-label btn btn-light pl-5" for="footwear"
+                                        [ngClass]="{'active' : filter.category == 'Footwear'}">Footware</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-ckeck mx-5">
-                        <input type="radio" id="kids" class="form-check-input" value="Kids" name="for"
-                            (change)="applyFilter()" [(ngModel)]="filter.for" #for>
-                        <label class="form-check-label" for="kids">Kids</label>
+
+                    <div class="card border-0">
+                        <div class="card-header p-0">
+                            <div class="form-ckeck" data-toggle="collapse" data-target="#kids-section">
+                                <input type="radio" id="kids" class="form-check-input" value="Kids" name="for"
+                                    (change)="filter['category']=null;applyFilter()" [(ngModel)]="filter.for" #for
+                                    hidden>
+                                <label class="form-check-label btn btn-light pl-4"
+                                    [ngClass]="{'btn-dark' : filter.for == 'Kids'}" for="kids">Kids</label>
+                            </div>
+                        </div>
+
+                        <div id="kids-section" class="collapse" data-parent="#filters">
+                            <div class="card-body p-0">
+                                <div class="form-ckeck">
+                                    <input type="radio" id="topwear" class="form-check-input" value="Topwear"
+                                        name="category" (change)="applyFilter()" [(ngModel)]="filter.category" #category
+                                        hidden>
+                                    <label class="form-check-label btn btn-light pl-5" for="topwear"
+                                        [ngClass]="{'active' : filter.category == 'Topwear'}">Topwear</label>
+                                </div>
+                                <div class="form-ckeck">
+                                    <input type="radio" id="bottomwear" class="form-check-input" value="Bottomwear"
+                                        name="category" (change)="applyFilter()" [(ngModel)]="filter.category" #category
+                                        hidden>
+                                    <label class="form-check-label btn btn-light pl-5" for="bottomwear"
+                                        [ngClass]="{'active' : filter.category == 'Bottomwear'}">Bottomwear</label>
+                                </div>
+                                <div class="form-ckeck">
+                                    <input type="radio" id="footwear" class="form-check-input" value="Footwear"
+                                        name="category" (change)="applyFilter()" [(ngModel)]="filter.category" #category
+                                        hidden>
+                                    <label class="form-check-label btn btn-light pl-5" for="footwear"
+                                        [ngClass]="{'active' : filter.category == 'Footwear'}">Footware</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="filter-name">Category</label>
-                    <div class="form-ckeck mx-5">
-                        <input type="radio" id="topwear" class="form-check-input" value="Topwear" name="category"
-                            (change)="applyFilter()" [(ngModel)]="filter.category" #category>
-                        <label class="form-check-label" for="topwear">Topwear</label>
-                    </div>
-                    <div class="form-ckeck mx-5">
-                        <input type="radio" id="bottomwear" class="form-check-input" value="Bottomwear" name="category"
-                            (change)="applyFilter()" [(ngModel)]="filter.category" #category>
-                        <label class="form-check-label" for="bottomwear">Bottomwear</label>
-                    </div>
-                    <div class="form-ckeck mx-5">
-                        <input type="radio" id="footwear" class="form-check-input" value="Footwear" name="category"
-                            (change)="applyFilter()" [(ngModel)]="filter.category" #category>
-                        <label class="form-check-label" for="footwear">Footware</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="filter-name">Price Range</label>
-                    <div class="d-flex justify-content-around">
-                        <input type="number" name="mini" min="0" class="form-control w-25 d-inline-block"
-                            placeholder="Min" (change)="applyFilter()" [(ngModel)]="filter.mini" #mini>
-                        <input type="number" name="maxi" min="0" class="form-control w-25 d-inline-block"
-                            placeholder="Max" (change)="applyFilter()" [(ngModel)]="filter.maxi" #maxi>
-                    </div>
-                </div>
-                <!-- {{filters.value | json}} -->
             </form>
         </div>
-        <div class="col-md-9 border-left py-5">
+        <div class="col-md-9 py-5 mx-auto">
             <div class="row">
                 <div class="card-group mx-auto">
                     <div class="col-md-3 p-0 d-flex" *ngFor="let product of products">
@@ -101,8 +172,8 @@
                                 data-toggle="modal" data-target="#product-details"
                                 (click)="displayProductDetails(product)">
                                 <div class="card-body p-0 text-center bg-secondary">
-                                    <img class="img-fluid" src='{{userService.getMyBaseServerUrl()+"products/"+product.thumbnail}}'
-                                        alt="">
+                                    <img class="img-fluid"
+                                        src='{{userService.getMyBaseServerUrl()+"products/"+product.thumbnail}}' alt="">
                                 </div>
                                 <div class="card-footer bg-light">
                                     <div class="card-title">
