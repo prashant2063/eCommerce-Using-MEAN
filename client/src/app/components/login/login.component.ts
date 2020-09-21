@@ -62,6 +62,11 @@ export class LoginComponent implements OnInit {
             this.userService.setLogInStatus(true);
             this.userService.setUserId(data["_id"]);
             this.router.navigateByUrl("/");
+            let user = {
+              name: this.userService.getName(),
+              userId: this.userService.getUserId()
+            }
+            localStorage.setItem('user', JSON.stringify(user)); 
           }
         },
         (err) => {

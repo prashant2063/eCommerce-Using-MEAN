@@ -12,16 +12,25 @@ export class HeaderComponent implements OnInit {
 
   itemsInCart: number;
 
-  constructor(public userSerVice: UserService, public cartService: CartService, public router: Router) {}
+  constructor(public userService: UserService, public cartService: CartService, public router: Router) { }
 
   ngOnInit(): void {
-    this.cartService.getItemsCount(this.userSerVice.getUserId());
+    if(localStorage.getItem('user')){
+      let user = JSON.parse(localStorage.getItem('user'));
+      this.userService.setName(user['name']);
+      this.userService.setUserId(user['userId']);
+      this.userService.setLogInStatus(true);
+    }
+    if (this.userService.getLogInStatus()) {
+      this.cartService.getItemsCount(this.userService.getUserId());
+    }
   }
 
-  logoutBtnClickEventHandler(){
-    this.userSerVice.setUserId(null);
-    this.userSerVice.setName(null);
-    this.userSerVice.setLogInStatus(false);
+  logoutBtnClickEventHandler() {
+    this.userService.setUserId(null);
+    this.userService.setName(null);
+    this.userService.setLogInStatus(false);
+    localStorage.removeItem('user')
     this.router.navigateByUrl("/")
   }
 }
