@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as CryptoJS from 'crypto-js';
+
 import { CartService } from 'src/app/services/cart/cart.service';
 import { UserService } from 'src/app/services/user/user.service';
+
 
 import { matchPassword } from './match-passwords';
 @Component({
@@ -12,6 +15,7 @@ import { matchPassword } from './match-passwords';
 })
 export class LoginComponent implements OnInit {
 
+  encryptionKey: string;
   loginForm = new FormGroup({
     email: new FormControl("", [Validators.required, Validators.email]),
     password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/)])
@@ -28,6 +32,7 @@ export class LoginComponent implements OnInit {
   constructor(public router: Router, public userService: UserService, public cartService: CartService) { }
 
   ngOnInit(): void {
+    this.encryptionKey = "556B58703273357638792F423F4528482B4B6250655368566D597133743677397A24432646294A404E635166546A576E5A7234753778214125442A472D4B6150"
   }
 
   showLogin() {
@@ -51,8 +56,10 @@ export class LoginComponent implements OnInit {
   loginBtnClickEventHandler() {
     let userCredentials = {
       email: this.loginForm.value.email,
-      password: this.loginForm.value.password
+      password: CryptoJS.AES.encrypt(this.loginForm.value.password, this.encryptionKey).toString()
     }
+    console.log(userCredentials);
+    // console.log(CryptoJS.AES.decrypt(userCredentials.password.trim(),this.encryptionKey.trim()).toString(CryptoJS.enc.Utf8))
     this.userService.doUserValidation(userCredentials)
       .subscribe(
         (data) => {
@@ -84,7 +91,7 @@ export class LoginComponent implements OnInit {
     let user = {
       name: this.registerForm.value.name,
       email: this.registerForm.value.email,
-      password: this.registerForm.value.password
+      password: CryptoJS.AES.encrypt(this.registerForm.value.password, this.encryptionKey).toString()
     }
     this.userService.registerUser(user)
       .subscribe(
