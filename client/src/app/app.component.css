@@ -1,8 +1,11 @@
-/* #outer{
-    min-height:100vh;
-    position:relative;
+@media only screen and (min-width:768px){
+    #outer {
+        position: relative;
+        padding-bottom: 170px
+    }
+    #inner {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
 }
-#inner{
-    position: absolute; bottom:0; left:0;
-    right: 0;
-} */
