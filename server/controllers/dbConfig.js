@@ -1,5 +1,5 @@
 const Connection = {
-    dbUrl: "mongodb+srv://prashant:Prashant@1@cluster0.gtoon.mongodb.net/test",
+    dbUrl: "mongodb://localhost:27017/",
     dbName: "shopSpot"
 }
 
