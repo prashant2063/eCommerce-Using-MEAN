@@ -1,6 +1,6 @@
 const Connection = {
-    dbUrl: "link to your mongodb",
-    dbName: "database name"
+    dbUrl: "mongodb://localhost:27017/",
+    dbName: "shopSpot"
 }
 
 module.exports = { Connection };
