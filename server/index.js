@@ -15,7 +15,24 @@ const PORT = 3000;
 
 const app = express();
 
-
+app.get("/home",(req,res)=>{
+    res.sendFile(path.join(__dirname, "public", "dist", "ShopSpot","index.html"));
+})
+app.get("/contact",(req,res)=>{
+    res.sendFile(path.join(__dirname, "public", "dist", "ShopSpot","index.html"));
+})
+app.get("/about",(req,res)=>{
+    res.sendFile(path.join(__dirname, "public", "dist", "ShopSpot","index.html"));
+})
+app.get("/login",(req,res)=>{
+    res.sendFile(path.join(__dirname, "public", "dist", "ShopSpot","index.html"));
+})
+app.get("/cart",(req,res)=>{
+    res.sendFile(path.join(__dirname, "public", "dist", "ShopSpot","index.html"));
+})
+app.get("/order",(req,res)=>{
+    res.sendFile(path.join(__dirname, "public", "dist", "ShopSpot","index.html"));
+})
 app.use(express.static(path.join(__dirname, "public", "dist", "ShopSpot")));
 app.use("/products",express.static(path.join(__dirname,"public","products")))
 app.use(bodyParser.json());
