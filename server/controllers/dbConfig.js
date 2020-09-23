@@ -1,6 +1,6 @@
 const Connection = {
-    dbUrl: "mongodb+srv://prashant:Prashant@1@cluster0.gtoon.mongodb.net/test",
-    dbName: "shopSpot"
+    dbUrl: "link to your mongodb",
+    dbName: "database name"
 }
 
 module.exports = { Connection };
