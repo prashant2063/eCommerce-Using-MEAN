@@ -5,14 +5,14 @@ ShopSpot is an e-commerce website template created using MEAN stack
 ## Prerequisite
 
 You need to have Angular and npm (Node Package Manager) installed on you system.
-Easist way to do so is to install [node.js](https://nodejs.org/en/).
+Easiest way to do so is to install [node.js](https://nodejs.org/en/).
 and then run the following command.
 
 ```cmd
 npm install -g @angular/cli
 ```
 
-You also need to install MongoDB in your local machine or you can use a remote database service.
+You also need to install MongoDB engine in your local machine or you can use a remote database service.
 
 
 ## Setup
